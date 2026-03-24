@@ -252,7 +252,66 @@
                     <a class="nav-link {{ request()->routeIs('contacto') ? 'active' : '' }}"
                        href="{{ route('contacto') }}">Contacto</a>
                 </li>
+            <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('carrito*') ? 'active' : '' }}"
+                       href="{{ route('carrito.index') }}" style="position:relative;">
+                        <i class="bi bi-cart3" style="font-size:1.1rem;"></i>
+                        @php $carritoCount = array_sum(array_column(session()->get('carrito', []), 'cantidad')); @endphp
+                        @if($carritoCount > 0)
+                            <span style="position:absolute;top:0;right:0;
+                                         background:var(--cafe-gold);color:var(--cafe-dark);
+                                         font-size:.55rem;font-weight:700;border-radius:50%;
+                                         width:16px;height:16px;display:flex;align-items:center;
+                                         justify-content:center;line-height:1;">
+                                {{ $carritoCount }}
+                            </span>
+                        @endif
+                    </a>
+                </li>
+
+                {{-- Sesión del cliente --}}
+                @if(session('cliente_token'))
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>
+                            {{ session('cliente_nombre', 'Mi cuenta') }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end"
+                            style="background:var(--cafe-dark);border:1px solid rgba(212,168,83,.2);border-radius:4px;">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('cliente.perfil') }}"
+                                   style="color:#ccc;font-size:.82rem;">
+                                    <i class="bi bi-person me-2" style="color:var(--cafe-gold);"></i>Mi perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('cliente.editar') }}"
+                                   style="color:#ccc;font-size:.82rem;">
+                                    <i class="bi bi-pencil me-2" style="color:var(--cafe-gold);"></i>Editar perfil
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" style="border-color:rgba(212,168,83,.2);"></li>
+                            <li>
+                                <form action="{{ route('cliente.logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item"
+                                            style="color:#f87171;font-size:.82rem;">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('cliente.login') ? 'active' : '' }}"
+                           href="{{ route('cliente.login') }}">
+                            <i class="bi bi-person me-1"></i>Login
+                        </a>
+                    </li>
+                @endif
             </ul>
+
         </div>
     </div>
 </nav>
