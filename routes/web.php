@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CheckoutController; // ← agregar esta línea
 
 // Páginas informativas
 Route::get('/', [PageController::class, 'inicio'])->name('inicio');
@@ -20,6 +21,11 @@ Route::post('/carrito/agregar', [App\Http\Controllers\CarritoController::class, 
 Route::post('/carrito/actualizar/{id}', [App\Http\Controllers\CarritoController::class, 'actualizar'])->name('carrito.actualizar');
 Route::post('/carrito/eliminar/{id}', [App\Http\Controllers\CarritoController::class, 'eliminar'])->name('carrito.eliminar');
 Route::post('/carrito/vaciar', [App\Http\Controllers\CarritoController::class, 'vaciar'])->name('carrito.vaciar');
+
+// Checkout ← agregar estas 3 rutas
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/procesar', [CheckoutController::class, 'procesar'])->name('checkout.procesar');
+Route::get('/checkout/confirmacion', [CheckoutController::class, 'confirmacion'])->name('checkout.confirmacion');
 
 // Autenticación de clientes
 Route::get('/registro', [App\Http\Controllers\Auth\ClienteController::class, 'showRegister'])->name('cliente.register');

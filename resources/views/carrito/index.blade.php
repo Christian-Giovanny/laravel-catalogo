@@ -154,9 +154,20 @@
                             </span>
                         </div>
 
-                        <button class="btn-cafe w-100 mt-4" style="padding:.85rem;text-align:center;">
-                            <i class="bi bi-bag-check me-2"></i>Confirmar pedido
-                        </button>
+                        {{-- ✅ BOTÓN CORREGIDO --}}
+                        @if(session('cliente_token'))
+                            <a href="{{ route('checkout.index') }}"
+                               class="btn-cafe w-100 mt-4"
+                               style="padding:.85rem;text-align:center;display:block;">
+                                <i class="bi bi-bag-check me-2"></i>Proceder al checkout
+                            </a>
+                        @else
+                            <a href="{{ route('cliente.login') }}"
+                               class="btn-cafe w-100 mt-4"
+                               style="padding:.85rem;text-align:center;display:block;">
+                                <i class="bi bi-lock me-2"></i>Inicia sesión para comprar
+                            </a>
+                        @endif
 
                         <a href="{{ route('catalogo') }}" class="btn-outline-cafe w-100 mt-2"
                            style="padding:.83rem;text-align:center;display:block;">
